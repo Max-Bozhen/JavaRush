@@ -1,0 +1,34 @@
+package com.javarush.task.task18.task1825;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.TreeMap;
+
+/* 
+Собираем файл
+*/
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        TreeMap<Integer, byte[]> parts = new TreeMap<>();
+        String fileName = reader.readLine();
+        FileInputStream fis;
+        String newFile = fileName.substring(0, fileName.indexOf(".part"));
+        while (!fileName.equals("end")) {
+            fis = new FileInputStream(fileName);
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            int part = Integer.parseInt(fileName.substring(fileName.indexOf(".part") + 5));
+            parts.put(part, buffer);
+            fis.close();
+            fileName = reader.readLine();
+
+        }
+
+        FileOutputStream fos = new FileOutputStream(newFile, true);
+        for (byte[] bytes : parts.values())
+            fos.write(bytes);
+        fos.close();
+    }
+}
